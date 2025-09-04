@@ -22,9 +22,9 @@ model User {
   order Order[]
   cart  Cart    @relation(fields: [cartId], references: [id])
 
-  createdAt DateTime
+  createdAt DateTime 
   updatedAt DateTime
-  cartId    String
+  cartId    String   @unique
 }
 
 model Order {
@@ -51,14 +51,14 @@ model Product {
 
 model Cart {
   id         String @id @default(uuid())
-  totalValue String
+  totalValue String @default("0")
 
   product ProductInCart[]
-  User    User[]
+  user    User?
 }
 
 model ProductInCart {
-  prduct    Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
   productId String
 
   cart   Cart   @relation(fields: [cartId], references: [id])
@@ -71,7 +71,7 @@ model ProductInCart {
 }
 
 model ProductInOrder {
-  prduct    Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
   productId String
 
   order   Order  @relation(fields: [orderId], references: [id])
