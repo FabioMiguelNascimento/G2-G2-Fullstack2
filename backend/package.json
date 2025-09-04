@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "node --watch --env-file=.env src/server.ts --ts-node ",
+    "dev": "tsx --watch --env-file=.env src/server.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -20,7 +20,7 @@
     "@types/node": "^24.0.4",
     "globals": "^16.1.0",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.5",
     "typescript": "^5.8.3"
   },
   "dependencies": {
