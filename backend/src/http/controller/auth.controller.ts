@@ -3,6 +3,7 @@ import AuthRepository from "@/http/repository/auth.repo.js";
 import { RegisterInput } from "@/schema/auth.schema.js";
 import { encodePassword } from "@/utils/bcrypt.js";
 import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 const repo = new AuthRepository()
 export default class AuthController{
@@ -28,6 +29,28 @@ export default class AuthController{
             const  {password, ...userWithoutPassword} = newUser
 
             res.status(200).json({ code: 200, message: "Registro feito com sucesso", data: userWithoutPassword})
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    login = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            let userInput:  RegisterInput = req.validatedData
+            const existingUser = await repo.findUserByEmail(userInput.email)
+
+            if (!existingUser) res.status(404).json({ code: 404, message: `Usuário com o email ${userInput.email} não encontrado` });
+
+            // Faz o hash na senha do usuario
+            const hashedPassword = encodePassword(userInput.password)
+
+            const user = {...existingUser, password: hashedPassword};
+            const token = jwt.sign(user, await repo.decodeToken(), {expiresIn: '1h'})
+
+            // Remove a senha da resposta
+            const  {password, ...userWithoutPassword} = user
+
+            res.status(200).json({ code: 200, message: "Login reslizado com sucesso", data: userWithoutPassword, token: token });
         } catch (err) {
             next(err)
         }

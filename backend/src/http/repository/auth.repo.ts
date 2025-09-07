@@ -1,7 +1,7 @@
+import { RegisterInput } from '@/schema/auth.schema.js'
 import { User } from '@prisma/client'
 import prisma from '../../../db/prisma.js'
 import IAuth from '../interface/auth.interface.js'
-import { RegisterInput } from '@/schema/auth.schema.js'
 
 export default class AuthRepository implements IAuth {
 
@@ -25,5 +25,11 @@ export default class AuthRepository implements IAuth {
         })
 
         return user
+    }
+
+    async decodeToken() {
+        const SECRET = process.env.JWT_SECRET;
+        if (!SECRET) throw new Error("JWT_SECRET não definido");
+        return SECRET;
     }
 }
