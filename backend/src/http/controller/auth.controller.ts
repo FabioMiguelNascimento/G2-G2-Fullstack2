@@ -4,6 +4,7 @@ import { RegisterInput } from "@/schema/auth.schema.js";
 import { encodePassword } from "@/utils/bcrypt.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import AuthResponse from "../views/auth.view.js";
 
 const repo = new AuthRepository()
 export default class AuthController{
@@ -16,7 +17,7 @@ export default class AuthController{
             // Verifica se ja existe um user com esse email
             if (existingUser) {
                 throw new ConflictError("Usuario ja cadastrado com esse email, que tal fazer login?")
-            }
+            }   
 
             // Faz o hash na senha do usuario
             const hashedPassword = encodePassword(userInput.password)
@@ -25,10 +26,7 @@ export default class AuthController{
 
             let newUser = await repo.register(userInput)
 
-            // Remove a senha da resposta
-            const  {password, ...userWithoutPassword} = newUser
-
-            res.status(200).json({ code: 200, message: "Registro feito com sucesso", data: userWithoutPassword})
+            res.status(200).json( new AuthResponse().register(newUser) )
         } catch (err) {
             next(err)
         }
@@ -47,10 +45,7 @@ export default class AuthController{
             const user = {...existingUser, password: hashedPassword};
             const token = jwt.sign(user, await repo.decodeToken(), {expiresIn: '1h'})
 
-            // Remove a senha da resposta
-            const  {password, ...userWithoutPassword} = user
-
-            res.status(200).json({ code: 200, message: "Login reslizado com sucesso", data: userWithoutPassword, token: token });
+            res.status(200).json(new AuthResponse().login(user, token));
         } catch (err) {
             next(err)
         }
