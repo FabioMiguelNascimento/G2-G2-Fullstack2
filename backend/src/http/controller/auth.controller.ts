@@ -1,10 +1,11 @@
-import { ConflictError } from "@/error/httpErros.js";
+import { ConflictError, NotFoundError } from "@/error/httpErros.js";
 import AuthRepository from "@/http/repository/auth.repo.js";
-import { RegisterInput } from "@/schema/auth.schema.js";
-import { encodePassword } from "@/utils/bcrypt.js";
+import { LoginInput, RegisterInput } from "@/schema/auth.schema.js";
+import { decodePassword, encodePassword } from "@/utils/bcrypt.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import AuthResponse from "../views/auth.view.js";
+import { signToken } from "@/utils/jwt.js";
 
 const repo = new AuthRepository()
 export default class AuthController{
@@ -34,16 +35,26 @@ export default class AuthController{
 
     login = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            let userInput:  RegisterInput = req.validatedData
-            const existingUser = await repo.findUserByEmail(userInput.email)
+            let userInput: LoginInput = req.validatedData
 
-            if (!existingUser) res.status(404).json({ code: 404, message: `Usuário com o email ${userInput.email} não encontrado` });
+            const user = await repo.findUserByEmail(userInput.email)
 
-            // Faz o hash na senha do usuario
-            const hashedPassword = encodePassword(userInput.password)
+            if(!user) {
+                throw new NotFoundError("Email ou senha incorreto")
+            }
 
-            const user = {...existingUser, password: hashedPassword};
-            const token = jwt.sign(user, await repo.decodeToken(), {expiresIn: '1h'})
+            const decodedPassword = decodePassword(user?.password, userInput.password) 
+
+            if(userInput.email !== user.email) {
+                throw new NotFoundError("Email ou senha incorreto")
+            }
+
+            if(!decodedPassword) {
+                throw new NotFoundError("Email ou senha incorreto")
+            }
+
+            const tokenPayload = { id: user.id, role: user.role }
+            const token = signToken(tokenPayload)
 
             res.status(200).json(new AuthResponse().login(user, token));
         } catch (err) {

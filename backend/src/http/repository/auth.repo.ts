@@ -26,10 +26,4 @@ export default class AuthRepository implements IAuth {
 
         return user
     }
-
-    async decodeToken() {
-        const SECRET = process.env.JWT_SECRET;
-        if (!SECRET) throw new Error("JWT_SECRET não definido");
-        return SECRET;
-    }
 }

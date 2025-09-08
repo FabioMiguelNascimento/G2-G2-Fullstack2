@@ -4,5 +4,4 @@ import { User } from "@prisma/client";
 export default interface IAuth {
     findUserByEmail(email:string): Promise<User | null>
     register(userInput: RegisterInput): Promise <User>
-    decodeToken(token: string): any
 }
