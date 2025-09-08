@@ -1,3 +1,4 @@
+import { env } from "@/schema/env.schema.js";
 import { UserRole } from "@prisma/client";
 import jwt  from "jsonwebtoken";
 
@@ -7,5 +8,5 @@ interface SignTokenData {
 }
 
 export const signToken = (tokenPayload: SignTokenData) => {
-  return jwt.sign(tokenPayload, process.env.JWT_SECRET , {expiresIn: '1h'})
+  return jwt.sign(tokenPayload, env.JWT_SECRET , {expiresIn: '1h'})
 }

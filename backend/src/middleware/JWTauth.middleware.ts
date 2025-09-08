@@ -1,13 +1,11 @@
+import { env } from "@/schema/env.schema.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-// Chave secreta
-const SECRET = process.env.JWT_SECRET || false
-
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+    const SECRET = env.JWT_SECRET
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
-    console.log(SECRET)
 
     if (!token) {
         return res.status(401).json({ code: 401, message: "Sem token! Não autorizado." });
