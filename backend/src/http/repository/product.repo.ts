@@ -5,8 +5,26 @@ import prisma from "db/prisma.js";
 
 export default class ProductRepository implements IProduct {
     async create(data: CreateProductInput, userId: string): Promise<Product> {
-        return prisma.product.create({
+        return await prisma.product.create({
             data: {...data, userId}
         })
+    }
+
+    async findByid(id: string): Promise<Product | null> {
+        return await prisma.product.findUnique({
+            where: { id: id}
+        })
+    }
+
+
+    async delete(id: string): Promise<void> {
+        await prisma.$transaction([
+            prisma.productInCart.deleteMany({
+                where: { productId: id }
+            }),
+            prisma.product.delete({
+                where: { id: id },  
+            })
+        ])
     }
 }

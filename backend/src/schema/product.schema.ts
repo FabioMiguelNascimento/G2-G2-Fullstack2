@@ -7,3 +7,7 @@ export const createProdcutSchema = z.object({
 })
 
 export type CreateProductInput = z.infer<typeof createProdcutSchema>
+
+export const deleteProductSchema = z.object({
+    id: z.string().min(1, "Id nao passado nos params")
+})
