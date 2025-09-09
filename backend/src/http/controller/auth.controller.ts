@@ -3,7 +3,6 @@ import AuthRepository from "@/http/repository/auth.repo.js";
 import { LoginInput, RegisterInput } from "@/schema/auth.schema.js";
 import { decodePassword, encodePassword } from "@/utils/bcrypt.js";
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import AuthResponse from "../views/auth.view.js";
 import { signToken } from "@/utils/jwt.js";
 
