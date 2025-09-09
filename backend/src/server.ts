@@ -1,6 +1,7 @@
 import express, { json } from 'express';
 import { errorHandler, requestNotFound } from './error/errorHandler.js';
 import authRoute from './http/route/auth.route.js';
+import userRoute from './http/route/user.route.js';
 import { env } from './schema/env.schema.js';
 
 const PORT = env.PORT
@@ -9,6 +10,7 @@ const app = express()
 app.use(json())
 
 app.use('/api/auth', authRoute)
+app.use('/api/user', userRoute)
 
 app.use(errorHandler);
 app.use(requestNotFound);

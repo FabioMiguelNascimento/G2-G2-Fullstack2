@@ -9,3 +9,5 @@ const userController = new UserController()
 
 // Rota para listar os dados do usuário
 router.get('/', authenticateToken, userController.getUserData)
+
+export default router;
