@@ -1,5 +1,6 @@
 import AuthController from '@/http/controller/auth.controller.js'
 import { authenticateToken } from '@/middleware/JWTauth.middleware.js'
+import { validatePermission } from '@/middleware/validatePermission.middleware.js'
 import { validateBody } from '@/middleware/validateRequest.middleware.js'
 import { loginSchema, registerSchema } from '@/schema/auth.schema.js'
 import express from 'express'

@@ -1,4 +1,6 @@
+import { UnauthorizedError } from "@/error/httpErros.js";
 import { env } from "@/schema/env.schema.js";
+import { SignTokenData } from "@/utils/jwt.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -12,18 +14,17 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     }
 
     try {
-        if (SECRET) {
-            jwt.verify(token, SECRET, (err, user) => {
-                if (err) {
-                    return res.status(403).json({ code: 403, message: "Token inválido ou expirado" })
-                }
-            })
-        } else {
-            throw new Error("Token não recebido do arquivo de configuração")
-        }
+        const decoded = jwt.verify(token, SECRET) as SignTokenData
+
+        req.userId = decoded.id;
+        req.userRole = decoded.role;
 
         next();
     } catch (error) {
-        res.status(500).json({ errMessage: error })
+        if(error instanceof jwt.TokenExpiredError) {
+            throw new UnauthorizedError("Token expirado");
+        }
+
+        throw new UnauthorizedError("Error ao autenticar")
     }
 }
