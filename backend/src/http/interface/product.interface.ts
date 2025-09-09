@@ -1,0 +1,6 @@
+import { CreateProductInput } from "@/schema/product.schema.js";
+import { Product } from "@prisma/client";
+
+export default interface IProduct {
+    create(data: CreateProductInput, userId: string): Promise<Product>
+}
