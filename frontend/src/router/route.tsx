@@ -2,6 +2,7 @@ import App from "@/App";
 import Home from "@/pages/home";
 import NotFound from "@/pages/NotFound";
 import Product from "@/pages/Product";
+import Cart from "@/pages/Cart";
 import { type RouteObject } from "react-router-dom";
 
 const routesConfig: RouteObject[] = [
@@ -20,6 +21,10 @@ const routesConfig: RouteObject[] = [
       {
         path: "product",
         element: <Product />
+      },
+      {
+        path: "cart",
+        element: <Cart />
       }
     ],
   },
