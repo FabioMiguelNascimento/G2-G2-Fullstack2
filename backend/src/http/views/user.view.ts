@@ -16,4 +16,12 @@ export default class UserResponse {
             data: { id: data.id, name: data.name, email: data.email, role: data.role }
         };
     }
+
+    deleteUser(data: UserData) {
+        return {
+            code: 204,
+            message: "Usuário deletado com sucesso",
+            data: { name: data.name }
+        }
+    }
 }

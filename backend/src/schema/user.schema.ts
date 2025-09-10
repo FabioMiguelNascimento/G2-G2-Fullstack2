@@ -7,4 +7,8 @@ export const updateSchema = z.object({
     password: passwordSchema.optional()
 });
 
+export const idSchema = z.object({
+    id: z.string().min(1, "Id necessario no parametro")
+})
+
 export type UpdateInput = z.infer<typeof updateSchema>
