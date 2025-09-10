@@ -27,4 +27,8 @@ export default class ProductRepository implements IProduct {
             })
         ])
     }
+
+    async getAll(): Promise<Product[] | []> {
+        return await prisma.product.findMany()
+    }
 }

@@ -9,6 +9,8 @@ const router = express.Router()
 
 const productController = new ProductController()
 
+router.get('/', productController.getAll)
+
 router.use(authenticateToken, validatePermission(['ADMIN']))
 
 router.post('/', validateBody(createProdcutSchema), productController.create)
