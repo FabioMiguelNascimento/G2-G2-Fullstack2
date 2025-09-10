@@ -6,8 +6,8 @@ function App() {
    return (
     <>
       <Header />
-      <main className="p-6">
-        <Outlet /> {}
+      <main className="max-w-7xl mx-auto p-4">
+        <Outlet />
       </main>
     </>
   )
