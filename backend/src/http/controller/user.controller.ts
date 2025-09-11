@@ -20,6 +20,21 @@ export default class UserController {
         }
     }
 
+    listAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const users = await repo.getAllUsers();
+
+            const allUsers = users.map(user => {
+                const { password, createdAt, updatedAt, ...allUsers } = user
+                return allUsers
+            })
+            
+            res.status(200).json(allUsers);
+        } catch (error) {
+            
+        }
+    }
+
     selfDeleteUserData = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.userId

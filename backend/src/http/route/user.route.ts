@@ -9,7 +9,10 @@ const router = express.Router();
 const userController = new UserController()
 
 // Rota para listar os dados do próprio usuário
-router.get('/', authenticateToken, userController.getSelfUserData)
+router.get('/profile', authenticateToken, userController.getSelfUserData)
+
+// Rota para listar todos os usuários
+router.get('/', authenticateToken, validatePermission(['ADMIN']), userController.listAllUsers)
 
 // Rota para usuário deletar seu próprio usuário
 router.delete('/', authenticateToken, userController.selfDeleteUserData)

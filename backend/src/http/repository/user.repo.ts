@@ -7,6 +7,10 @@ export default class UserRepository implements IUser {
         return await prisma.user.findUnique({where: {id: id}});
     }
 
+    async getAllUsers(): Promise<User[] | []> {
+        return await prisma.user.findMany();
+    }
+
     async deleteUser(id: string): Promise<void> {
         await prisma.$transaction([
             prisma.user.delete({where: {id: id}})
