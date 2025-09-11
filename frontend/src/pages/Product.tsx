@@ -7,6 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import buildPrice from "@/utils/buildPrice";
+import buildStars from "@/utils/buildStars";
 import {
   BadgeCheckIcon,
   CheckCircle,
@@ -18,7 +20,6 @@ import {
   Shield,
   ShieldCheck,
   Star,
-  StarHalf,
   Truck,
 } from "lucide-react";
 import { useState } from "react";
@@ -152,50 +153,6 @@ export default function Product() {
     return badges;
   };
 
-  const buildStars = () => {
-    const stars = [];
-    const fullStars = Math.floor(productData.rating);
-    const halfStar = productData.rating % 1 >= 0.5;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star key={i} className="text-blue-500 fill-blue-500" />);
-    }
-    if (halfStar) {
-      stars.push(
-        <StarHalf key="half" className="text-blue-500 fill-blue-500" />
-      );
-    }
-    return <div className="flex gap-2">{stars}</div>;
-  };
-
-  const buildPrice = () => {
-    if (productData.discountPercentage) {
-      return (
-        <div className="flex gap-4 items-center">
-          <span className="text-3xl font-bold text-blue-600">
-            $ {productData.price.toFixed(2)}
-          </span>
-
-          <span className="text-lg font-medium text-muted-foreground line-through">
-            $ {productData.withoutDiscount.toFixed(2)}
-          </span>
-
-          <Badge
-            variant="secondary"
-            className="font-bold place-self-center bg-green-200 text-green-800"
-          >
-            -{productData.discountPercentage}% OFF
-          </Badge>
-        </div>
-      );
-    }
-    return (
-      <span className="text-3xl font-bold text-blue-600">
-        $ {productData.price.toFixed(2)}
-      </span>
-    );
-  };
-
   const buildPolicies = () => {
     const policyConfig = {
       [ShippingOption.FREE]: { icon: Truck, text: "Frete Grátis" },
@@ -280,13 +237,13 @@ export default function Product() {
               {productData.title}
             </h1>
             <div className="flex gap-2">
-              {buildStars()}{" "}
+              {buildStars(productData)}{" "}
               <span className="text-muted-foreground">
                 ({productData.rating})
               </span>
             </div>
           </div>
-          {buildPrice()}
+          {buildPrice(productData)}
           <Card className="flex flex-col gap-4">
             <CardHeader className="justify-start items-start mb-5">
               <CardTitle className="text-lg font-bold flex gap-2 items-center justify-start">

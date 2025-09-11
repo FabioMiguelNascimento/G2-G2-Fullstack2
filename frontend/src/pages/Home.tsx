@@ -1,8 +1,6 @@
-import useFetchProducts from "@/hooks/useFetchProducts"
 import { Smartphone, Laptop, Headset, Gamepad2 } from "lucide-react"
 
 export default function Home() {
-  const { products } = useFetchProducts()
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-16">
       <section className="text-center py-16 bg-gradient-to-r from-blue-800 to-blue-600 rounded-lg shadow-md text-white">

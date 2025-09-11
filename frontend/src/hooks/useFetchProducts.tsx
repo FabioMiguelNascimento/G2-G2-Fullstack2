@@ -1,22 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import api from '@/utils/api';
+import { useState, useEffect } from 'react';
 
-export default function useFetchProducts() {
+export const useFetchProducts = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const fetchProducts = useCallback(async () => {
-    const products = await axios('http://localhost:8888/api/product/')
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get('/product');
+      setProducts(response.data.data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchProducts();
+}, []);
 
-    console.log(products.request.response)
-    setProducts(products.request.response)
-  }, []);
-
-  useEffect(() => {
-    const loadProducts = async () => {
-      await fetchProducts();
-    };
-    loadProducts();
-  }, [fetchProducts]);
-
-  return { products }
-}
+  return { products, loading, error };
+};
