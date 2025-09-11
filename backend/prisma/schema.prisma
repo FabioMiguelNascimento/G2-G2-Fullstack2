@@ -12,6 +12,32 @@ enum UserRole {
   ADMIN
 }
 
+enum ProductCondition {
+  PREMIUM
+  NEW
+  REFURBISHED
+  USED
+  DAMAGED
+}
+
+enum WarrantyType {
+  MANUFACTURER
+  EXTENDED
+  REFURBISHED
+}
+
+enum ShippingOption {
+  FREE
+  PAID
+  EXPRESS
+}
+
+enum ReturnPolicy {
+  DAYS_30
+  DAYS_60
+  NO_RETURN
+}
+
 model User {
   id       String   @id @default(uuid())
   name     String
@@ -40,7 +66,24 @@ model Product {
   id          String @id @default(uuid())
   title       String
   description String
-  price       String
+  price       Float
+
+  withoutDiscount Float?
+  discountPercentage Float?
+  rating      Float?
+  inStock     Boolean @default(true)
+  isNew       Boolean @default(false)
+  condition   ProductCondition @default(NEW)
+
+  categorys   Json?
+  specifications Json?
+  mainFeatures Json?
+  colors      Json?
+  includes    Json?
+
+  freeShipping ShippingOption @default(FREE)
+  warranty    WarrantyType @default(MANUFACTURER)
+  returnPolicy ReturnPolicy @default(DAYS_30)
 
   userId      String
 
