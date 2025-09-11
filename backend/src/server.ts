@@ -3,11 +3,13 @@ import { errorHandler, requestNotFound } from './error/errorHandler.js';
 import authRoute from './http/route/auth.route.js';
 import { env } from './schema/env.schema.js';
 import productRoute from './http/route/product.route.js';
+import cors from 'cors'
 
 const PORT = env.PORT
 const app = express()
 
 app.use(json())
+app.use(cors())
 
 app.use('/api/auth', authRoute)
 app.use('/api/product', productRoute)
