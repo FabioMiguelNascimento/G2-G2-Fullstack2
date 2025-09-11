@@ -8,6 +8,7 @@ import {
 import { ChevronsUpDown, Heart, LogOut, Package, ShoppingCart, User } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Avatar, AvatarFallback } from "./ui/avatar"
+import CartSheet from "./CartSheet"
 
 export default function Header() {
   const user = {
@@ -55,6 +56,10 @@ export default function Header() {
                   Carrinho
                 </Link>
               </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem className="flex items-center gap-2 px-3 py-2 rounded text-white hover:text-black hover:bg-accent cursor-pointer">
+              <CartSheet />
             </NavigationMenuItem>
 
             <NavigationMenuItem>
