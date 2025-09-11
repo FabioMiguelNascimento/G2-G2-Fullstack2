@@ -17,4 +17,8 @@ export default class UserRepository implements IUser {
         ])
     }
 
+    async updateUser(id: string, data: User): Promise<User | null> {
+        return await prisma.user.update({where: {id: id}, data: data})
+    }
+
 }

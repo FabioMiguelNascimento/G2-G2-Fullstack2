@@ -31,7 +31,25 @@ export default class UserController {
             
             res.status(200).json(allUsers);
         } catch (error) {
-            
+            next(error)
+        }
+    }
+
+    updateSelfUserData = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const userId = req.userId;
+            const bodyData = req.validatedData;
+            console.log(bodyData)
+            const user = repo.findUserById(userId);
+            if (!user)
+                throw new NotFoundError("Usuário não encontrado");
+
+            const newUserData = await repo.updateUser(userId, bodyData);
+
+            res.status(200).json(newUserData);
+
+        } catch (error) {
+           next(error) 
         }
     }
 
