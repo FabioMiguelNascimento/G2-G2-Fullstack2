@@ -1,12 +1,4 @@
-interface CreateProductDataResponse {
-    id: string
-    title: string
-    description: string
-    price: string
-    userId: string
-    createdAt: Date
-    updatedAt: Date
-}
+import { CreateProductInput } from "@/schema/product.schema.js"
 
 interface ProductSchema {
     id: string
@@ -19,7 +11,7 @@ interface ProductSchema {
 }
 
 export default class ProductResponse {
-    create(data: CreateProductDataResponse) {
+    create(data: CreateProductInput) {
         return { code: 201, message: "Produto criado com sucesso", data: data}
     }
 
