@@ -1,9 +1,9 @@
+import cors from 'cors';
 import express, { json } from 'express';
 import { errorHandler, requestNotFound } from './error/errorHandler.js';
 import authRoute from './http/route/auth.route.js';
-import { env } from './schema/env.schema.js';
 import productRoute from './http/route/product.route.js';
-import cors from 'cors'
+import { env } from './schema/utils/env.schema.js';
 
 const PORT = env.PORT
 const app = express()

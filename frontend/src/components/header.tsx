@@ -39,7 +39,7 @@ export default function Header() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
-                  to="/product"
+                  to="/products"
                   className="block px-3 py-2 rounded text-white hover:text-black"
                 >
                   Produtos

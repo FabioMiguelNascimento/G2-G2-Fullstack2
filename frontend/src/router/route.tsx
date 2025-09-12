@@ -21,7 +21,7 @@ const routesConfig: RouteObject[] = [
         element: <NotFound />,
       },
       {
-        path: "product",
+        path: "product/:id",
         element: <Product />
       },
       {

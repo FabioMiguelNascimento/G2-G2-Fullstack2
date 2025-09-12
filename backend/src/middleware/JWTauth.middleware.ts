@@ -1,5 +1,5 @@
 import { UnauthorizedError } from "@/error/httpErros.js";
-import { env } from "@/schema/env.schema.js";
+import { env } from "@/schema/utils/env.schema.js";
 import { SignTokenData } from "@/utils/jwt.js";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";

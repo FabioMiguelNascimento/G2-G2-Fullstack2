@@ -53,4 +53,20 @@ export default class ProductController {
             next(err)
         }
     }
+
+    getById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.validatedData
+
+            const product = await this.repo.getById(id)
+
+            if (!product) {
+                throw new NotFoundError('Produto nao encontrado')
+            }
+            
+            res.status(200).json(this.view.getById(product))
+        } catch (err) {
+            next(err)
+        }
+    }
 }
