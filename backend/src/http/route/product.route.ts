@@ -4,12 +4,14 @@ import { validateBody, validateParams } from '@/middleware/validateRequest.middl
 import { createProductSchema, deleteProductSchema } from '@/schema/product.schema.js'
 import express from 'express'
 import ProductController from '../controller/product.controller.js'
+import { idSchema } from '@/schema/utils/id.schema.js'
 
 const router = express.Router()
 
 const productController = new ProductController()
 
 router.get('/', productController.getAll)
+router.get('/:id', validateParams(idSchema), productController.getById)
 
 router.use(authenticateToken, validatePermission(['ADMIN']))
 

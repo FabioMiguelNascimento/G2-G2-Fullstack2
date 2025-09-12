@@ -1,6 +1,6 @@
-import { env } from "@/schema/env.schema.js";
+import { env } from "@/schema/utils/env.schema.js";
 import { UserRole } from "@prisma/client";
-import jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export interface SignTokenData {
     id: string,
